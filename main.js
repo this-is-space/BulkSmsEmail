@@ -42,7 +42,7 @@ function extractEmails(text) {
 }
 
 function sendMail(emailList, subject, message) {
-    fetch('https://bulk-server-n5dy.vercel.app/sendemail', {
+    fetch('http://localhost:3000/sendemail', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ emailList, subject, message }),
@@ -59,7 +59,7 @@ function sendMail(emailList, subject, message) {
 }
 
 function sendBulkSMS(numList, message) {
-    fetch('https://bulk-server-n5dy.vercel.app/sendbulksms', {
+    fetch('http://localhost:3000/sendbulksms', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ numList, message }),
