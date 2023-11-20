@@ -64,7 +64,7 @@ async function sendBulkSMS(numList, message) {
     const vonage = new Vonage({
         apiKey: "e1abe581",
         apiSecret: "HfmFYhBE3VUl6IDg"
-      })
+    })
     for (let number of numList) {
         await vonage.sms.send({
             to: number,
