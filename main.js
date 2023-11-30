@@ -15,19 +15,47 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
 
         const messageType = messageTypeSelect.value;
-        const textFieldValue = document.getElementById('recipients').value;
-        const message = document.getElementById('message').value;
+        handleFile().then(textFieldValue => {
+            console.log(textFieldValue);
+            const message = document.getElementById('message').value;
 
-        if (messageType === 'email') {
-            const emailList = extractEmails(textFieldValue);
-            const subject = document.getElementById('subject').value;
-            sendMail(emailList, subject, message);
-        } else if (messageType === 'sms') {
-            const numList = extractNum(textFieldValue);
-            sendBulkSMS(numList, message);
-        }
+            if (messageType === 'email') {
+                const subject = document.getElementById('subject').value;
+                sendMail(emailList, subject, message);
+            } else if (messageType === 'sms') {
+                const numList = extractNum(textFieldValue);
+                sendBulkSMS(numList, message);
+            }
+        });
     });
 });
+
+function handleFile() {
+    return new Promise((resolve, reject) => {
+        const fileInput = document.getElementById('recipientFile');
+        const file = fileInput.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const fileContent = e.target.result;
+                console.log('File Content:', fileContent);
+                resolve(fileContent);
+            };
+
+            reader.onerror = function (error) {
+                reject(error);
+            };
+
+            // Read the file as text
+            reader.readAsText(file);
+        } else {
+            resolve(''); // Empty string if no file is selected
+        }
+    });
+}
+
 
 function extractNum(text) {
     const phoneRegex = /(?:\+91|91|0)?[6789]\d{9}/g;
